@@ -1,4 +1,4 @@
 # Backend for fengxiaoping.com
 
 Clock for home
-- [Clock](fxp.leanapp.cn/clock)
+- [Clock2](fxp.leanapp.cn/clock2)
