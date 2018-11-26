@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Personal Admin</title>
+  <meta name="description" content="Responsive, Bootstrap, BS4"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+  <!-- style -->
+  <!-- build:css ../assets/css/site.min.css -->
+  <link rel="stylesheet" href="../assets/css/bootstrap.css" type="text/css"/>
+  <link rel="stylesheet" href="../assets/css/i-con.css" type="text/css"/>
+  <link rel="stylesheet" href="../assets/css/theme.css" type="text/css"/>
+  <link rel="stylesheet" href="../assets/css/style.css" type="text/css"/>
+  <!-- endbuild -->
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js'></script>
+  <script src="app.js"></script>
+
+</head>
+<body id="dashboard" class="layout-column bg-dark">
+
+<div id="main" class="layout-row flex">
+  <!-- ############ Content START-->
+  <div id="content" class="flex ">
+    <div class="page-container" style="margin-top:100px">
+
+      <div class="padding" data-plugin="chartjs">
+
+        <div class="row">
+
+          <div class="col-md-12">
+            <div class="block text-center"
+                 style="letter-spacing: 0.1em;">
+              <div class=" py-4">
+                <div class="col-md-16 mx-auto">
+                  <h2 class="mt-4" style="font-size: 40px">2018-09-27 THU</h2>
+                  <h2 class="mb-4" style="font-size: 120px">2:29 AM</h2>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                Network speed
+              </div>
+              <div class="card-body">
+                <div class="d-flex">
+                  <div class="pb-4">
+                    <p class="text-muted">Current</p>
+                    <div>
+                      <h1 class="text-xl">9.4 MBps</h1>
+                    </div>
+                  </div>
+                  <div class="pb-4 mx-5">
+                    <small class="text-muted">Last updated</small>
+                    <div>
+                      <h1 class="text-xl">18 min ago</h1>
+                    </div>
+                  </div>
+                </div>
+                <div style="height: 160px">
+                  <canvas id="chart-line-9"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="list list-grouped text-center" >
+              <div class="list-item list-hover-overlay i-con-h-a block">
+                <div class="media">
+                  <div class="media-content" style="background-image: url(../assets/img/b10.jpg);"></div>
+                </div>
+                <div class="list-content p-0">
+                  <div class="list-body">
+                    <div class="p-3 b-b">
+                      Monday
+                    </div>
+                    <div class="py-5">
+                      <div class="i-con-h-a mb-4">
+                        <i class="i-con i-con-rain w-40 b-2x"><i></i></i>
+                      </div>
+                      <div class="mb-4">+9 <sup>&deg;</sup></div>
+                      <div class="text-muted">Rainy day</div>
+                    </div>
+                    <div class="p-4 b-t">21 May</div>
+                  </div>
+                </div>
+              </div>
+              <div class="list-item list-overlay block">
+                <div class="media">
+                  <div class="media-content" style="background-image: url(../assets/img/b11.jpg);"></div>
+                </div>
+                <div class="list-content p-0">
+                  <div class="list-body">
+                    <div class="p-3 b-b">
+                      Tuesday
+                    </div>
+                    <div class="py-5">
+                      <div class="i-con-h-a active mb-4">
+                        <i class="i-con i-con-clear-day w-40 b-2x text-warning"><i></i></i>
+                      </div>
+                      <div class="mb-4">+10 <sup>&deg;</sup></div>
+                      <div class="text-muted">Sunny day</div>
+                    </div>
+                    <div class="p-4 b-t">22 May</div>
+                  </div>
+                </div>
+              </div>
+              <div class="list-item list-hover-overlay i-con-h-a block">
+                <div class="media">
+                  <div class="media-content" style="background-image: url(../assets/img/b12.jpg);"></div>
+                </div>
+                <div class="list-content p-0">
+                  <div class="list-body">
+                    <div class="p-3 b-b">
+                      Wednesday
+                    </div>
+                    <div class="py-5">
+                      <div class="i-con-h-a mb-4">
+                        <i class="i-con i-con-snow w-40 b-2x"><i></i></i>
+                      </div>
+                      <div class="mb-4">-6 <sup>&deg;</sup></div>
+                      <div class="text-muted">Snow day</div>
+                    </div>
+                    <div class="p-4 b-t">
+                      23 May
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  <!-- ############ Content END-->
+</div>
+
+
+<!-- build:js ../assets/js/site.min.js -->
+<!-- jQuery -->
+<script src="../libs/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="../libs/popper.js/dist/umd/popper.min.js"></script>
+<script src="../libs/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- ajax page -->
+<script src="../libs/pace-progress/pace.min.js"></script>
+<script src="../libs/pjax/pjax.js"></script>
+<script src="../assets/js/ajax.js"></script>
+<!-- lazyload plugin -->
+<script src="../assets/js/lazyload.config.js"></script>
+<script src="../assets/js/lazyload.js"></script>
+<script src="../assets/js/plugin.js"></script>
+<!-- theme -->
+<script src="../assets/js/theme.js"></script>
+<!-- endbuild -->
+</body>
+</html>
