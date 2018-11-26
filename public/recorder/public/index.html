@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script type="text/javascript" src="./hark.js"></script>
+</head>
+<body>
+
+<script>
+  function createAudioElement(blobUrl) {
+    const downloadEl = document.createElement('a');
+    downloadEl.style = 'display: block';
+    downloadEl.innerHTML = 'download';
+    downloadEl.download = 'audio.webm';
+    downloadEl.href = blobUrl;
+    const audioEl = document.createElement('audio');
+    audioEl.controls = true;
+    const sourceEl = document.createElement('source');
+    sourceEl.src = blobUrl;
+    sourceEl.type = 'audio/webm';
+    audioEl.appendChild(sourceEl);
+    document.body.appendChild(audioEl);
+    document.body.appendChild(downloadEl);
+  }
+
+  function recordToFile(stream) {
+    const chunks = [];
+    // create media recorder instance to initialize recording
+    const recorder = new MediaRecorder(stream);
+    // function to be called when data is received
+    recorder.ondataavailable = e => {
+      // add stream data to chunks
+      chunks.push(e.data);
+      // if recorder is 'inactive' then recording has finished
+      if (recorder.state == 'inactive') {
+        // convert stream data chunks to a 'webm' audio format as a blob
+        const blob = new Blob(chunks, {type: 'audio/webm'});
+        // convert blob to URL so it can be assigned to a audio src attribute
+        createAudioElement(URL.createObjectURL(blob));
+      }
+    };
+    // start recording with 1 second time between receiving 'ondataavailable' events
+    recorder.start(1000);
+    // recorder.start(0);
+    // setTimeout to stop recording after 4 seconds
+    setTimeout(() => {
+      // this will trigger one final 'ondataavailable' event and set recorder state to 'inactive'
+      recorder.stop();
+      stream.getTracks()[0].stop();
+      console.log('stop');
+    }, 4 * 1000);
+  }
+
+  function getRecorder(stream) {
+    const chunks = [];
+    // create media recorder instance to initialize recording
+    const recorder = new MediaRecorder(stream);
+    // function to be called when data is received
+    recorder.ondataavailable = e => {
+      // add stream data to chunks
+      chunks.push(e.data);
+      console.log('data', (typeof e.data));
+      console.log('data', e.data);
+      console.log('data', btoa(e.data));
+      // if recorder is 'inactive' then recording has finished
+
+
+      var reader = new window.FileReader();
+      reader.readAsDataURL(e.data);
+      reader.onloadend = function () {
+        var data = {
+          data: reader.result
+        };
+        console.log(reader.result);
+        fetch('/mic/fxp-home', {
+          method: 'POST',
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+          },
+          body: JSON.stringify(data)
+        }).then(function (res) {
+          console.log(res);
+        });
+      }
+
+
+      if (recorder.state == 'inactive') {
+        // convert stream data chunks to a 'webm' audio format as a blob
+        const blob = new Blob(chunks, {type: 'audio/webm'});
+        // // convert blob to URL so it can be assigned to a audio src attribute
+        //
+        // var fd = new FormData();
+        // fd.append('fname', 'test.webm');
+        // fd.append('data', blob);
+        // fetch('/mic/fxp-home', {
+        //   method: 'POST',
+        //   mode: "cors",
+        //   headers: {
+        //     // "Content-Type": "application/json; charset=utf-8",
+        //     "Content-Type": "application/x-www-form-urlencoded",
+        //   },
+        //   body: fd
+        // }).then(function (res) {
+        //   console.log(res)
+        // })
+        // $.ajax({
+        //   type: 'POST',
+        //   url: '116.85.30.223:9999/mic/fxp-home',
+        //   data: fd,
+        //   processData: false,
+        //   contentType: false
+        // }).done(function (data) {
+        //   console.log(data);
+        // });
+
+
+        createAudioElement(URL.createObjectURL(blob));
+      }
+    };
+    return recorder;
+  }
+
+  var isSpeaking = false;
+
+  navigator.mediaDevices.getUserMedia({
+    audio: true
+  }).then(function (stream) {
+    // recordToFile(stream);
+    var recorder = getRecorder(stream);
+    var speechEvents = hark(stream, {});
+    speechEvents.on('speaking', function () {
+      console.log('speaking');
+      isSpeaking = true;
+      recorder.start(3000);
+    });
+
+    speechEvents.on('stopped_speaking', function () {
+      console.log('stopped_speaking');
+      isSpeaking = false;
+      recorder.stop();
+    });
+  }).catch(function (err) {
+    /* handle the error */
+  });
+</script>
+
+</body>
+</html>
